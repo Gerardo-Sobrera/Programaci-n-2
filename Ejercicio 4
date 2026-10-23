@@ -1,0 +1,45 @@
+import java.util.concurrent.ThreadLocalRandom;
+
+public class DiaDeLaSemana {
+
+    public static void main(String[] args) {
+        // Generar un número entero al azar entre 1 y 7 (inclusive)
+        int numeroGenerado = ThreadLocalRandom.current().nextInt(1, 8);
+
+        // Desplegar el número generado
+        System.out.println("Número generado: " + numeroGenerado);
+
+        // Evaluar el número mediante una estructura switch para determinar el día
+        String diaSemana;
+        switch (numeroGenerado) {
+            case 1:
+                diaSemana = "lunes";
+                break;
+            case 2:
+                diaSemana = "martes";
+                break;
+            case 3:
+                diaSemana = "miércoles";
+                break;
+            case 4:
+                diaSemana = "jueves";
+                break;
+            case 5:
+                diaSemana = "viernes";
+                break;
+            case 6:
+                diaSemana = "sábado";
+                break;
+            case 7:
+                diaSemana = "domingo";
+                break;
+            default:
+                diaSemana = "Número fuera de rango";
+                break;
+        }
+
+        // Mostrar el resultado en el formato solicitado
+        System.out.println("Día correspondiente: " + diaSemana);
+    }
+}
+
