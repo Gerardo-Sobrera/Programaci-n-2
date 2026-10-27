@@ -1,0 +1,33 @@
+import java.util.Scanner;
+
+public class DistribucionEquipos {
+
+    public static void main(String[] args) {
+        // Crear objeto Scanner para leer datos desde la consola
+        Scanner scanner = new Scanner(System.in);
+
+        // 1. Lectura de datos
+        System.out.print("Ingrese la cantidad total de estudiantes: ");
+        int totalEstudiantes = scanner.nextInt();
+
+        System.out.print("Ingrese la cantidad de estudiantes por equipo: ");
+        int estudiantesPorEquipo = scanner.nextInt();
+
+        System.out.println(); // Línea en blanco para separar la entrada de la salida
+
+        // 2. Cálculos
+        // La división entera (/) omite los decimales y da solo los grupos completos
+        int equiposCompletos = totalEstudiantes / estudiantesPorEquipo;
+
+        // El operador módulo (%) devuelve el resto de la división
+        int estudiantesRestantes = totalEstudiantes % estudiantesPorEquipo;
+
+        // 3. Salida de resultados
+        System.out.println("Cantidad total de estudiantes: " + totalEstudiantes);
+        System.out.println("Estudiantes por equipo: " + estudiantesPorEquipo);
+        System.out.println("Se pueden formar " + equiposCompletos + " equipos completos.");
+        System.out.println("Quedan " + estudiantesRestantes + " estudiantes sin integrar un equipo completo.");
+
+        // Cierre del recurso
+        scanner.close();
+    }
