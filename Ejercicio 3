@@ -1,0 +1,31 @@
+import java.util.Random;
+
+public class Ejercicio03 {
+
+    public static void main(String[] args) {
+        // Instancia para generar números aleatorios
+        Random random = new Random();
+        
+        // Variable acumuladora para almacenar la suma de los impares
+        int sumaImpares = 0;
+
+        // Estructura repetitiva: continúa mientras la suma sea menor o igual a 25
+        while (sumaImpares <= 25) {
+            // Generación de un número aleatorio entre 0 y 10 (ambos inclusive)
+            int numero = random.nextInt(11); 
+
+            // Evaluación de paridad (par / impar)
+            if (numero % 2 == 0) {
+                System.out.println("Número generado: " + numero + " - Es par");
+            } else {
+                System.out.println("Número generado: " + numero + " - Es impar");
+                // Acumulación del valor si es impar
+                sumaImpares += numero;
+            }
+        }
+
+        // Mensajes de finalización según las instrucciones
+        System.out.println("\nLa suma de los números impares es: " + sumaImpares);
+        System.out.println("La suma superó el valor 25. El proceso ha finalizado.");
+    }
+}
