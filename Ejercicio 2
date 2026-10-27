@@ -1,0 +1,21 @@
+import java.util.Random;
+
+public class SumaHastaAleatorio {
+    public static void main(String[] args) {
+        // 1. Generar número aleatorio entre 1 y 20
+        Random random = new Random();
+        int m = random.nextInt(20) + 1; // nextInt(20) genera [0, 19], +1 ajusta el rango a [1, 20]
+
+        // 2. Mostrar el número generado
+        System.out.println("Número generado: " + m);
+
+        // 3. Estructura repetitiva para acumular la suma de 1 a m
+        int suma = 0;
+        for (int i = 1; i <= m; i++) {
+            suma += i;
+        }
+
+        // 4. Presentar el resultado final
+        System.out.println("La suma de los números enteros entre 1 y " + m + " es: " + suma);
+    }
+}
