@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+import java.util.List;
+// Clase EspacioCultural
+class EspacioCultural {
+private String nombre;
+private String direccion;
+private List&lt;Evento&gt; eventos;
+public EspacioCultural(String nombre, String direccion) {
+this.nombre = nombre;
+this.direccion = direccion;
+this.eventos = new ArrayList&lt;&gt;();
+}
+public void agregarEvento(Evento evento) {
+if (!eventos.contains(evento)) {
+eventos.add(evento);
+}
+}
+public String getNombre() { return nombre; }
+public String getDireccion() { return direccion; }
+public List&lt;Evento&gt; getEventos() { return eventos; }
+}
+// Clase Artista
+class Artista {
+private String nombreArtistico;
+private String nombreReal;
+private String paisOrigen;
+private List&lt;Evento&gt; eventos;
+public Artista(String nombreArtistico, String nombreReal, String paisOrigen) {
+this.nombreArtistico = nombreArtistico;
+
+this.nombreReal = nombreReal;
+this.paisOrigen = paisOrigen;
+this.eventos = new ArrayList&lt;&gt;();
+}
+public void agregarEvento(Evento evento) {
+if (!eventos.contains(evento)) {
+eventos.add(evento);
+}
+}
+public String getNombreArtistico() { return nombreArtistico; }
+public String getNombreReal() { return nombreReal; }
+public String getPaisOrigen() { return paisOrigen; }
+public List&lt;Evento&gt; getEventos() { return eventos; }
+}
+// Clase Evento
+class Evento {
+private String nombre;
+private String fechaRealizacion;
+private String tipo; // música, teatro, exposición
+private EspacioCultural espacio;
+private List&lt;Artista&gt; artistas;
+public Evento(String nombre, String fechaRealizacion, String tipo, EspacioCultural
+espacio) {
+this.nombre = nombre;
+this.fechaRealizacion = fechaRealizacion;
+this.tipo = tipo;
+this.espacio = espacio;
+this.artistas = new ArrayList&lt;&gt;();
+espacio.agregarEvento(this); // Mantiene consistencia bidireccional
+}
+public void agregarArtista(Artista artista) {
+if (!artistas.contains(artista)) {
+artistas.add(artista);
+artista.agregarEvento(this);
+}
+}
+public String getNombre() { return nombre; }
+public String getFechaRealizacion() { return fechaRealizacion; }
+public String getTipo() { return tipo; }
+public EspacioCultural getEspacio() { return espacio; }
+public List&lt;Artista&gt; getArtistas() { return artistas; }
+}
+// Clase Principal de Prueba (Main)
+public class MainEjercicio1 {
+public static void main(String[] args) {
+EspacioCultural teatro = new EspacioCultural(&quot;Teatro Macció&quot;, &quot;18 de Julio
+762&quot;);
+Artista artista1 = new Artista(&quot;Rubáiyat&quot;, &quot;Juan Pérez&quot;, &quot;Uruguay&quot;);
+Artista artista2 = new Artista(&quot;Camila M.&quot;, &quot;Camila Martínez&quot;, &quot;Argentina&quot;);
+Evento evento = new Evento(&quot;Concierto Sinfónico&quot;, &quot;15/11/2026&quot;, &quot;Música&quot;,
+
+teatro);
+evento.agregarArtista(artista1);
+evento.agregarArtista(artista2);
+System.out.println(&quot;=== EVENTO CULTURAL ===&quot;);
+System.out.println(&quot;Evento: &quot; + evento.getNombre() + &quot; (&quot; + evento.getTipo() +
+&quot;)&quot;);
+System.out.println(&quot;Fecha: &quot; + evento.getFechaRealizacion());
+System.out.println(&quot;Espacio: &quot; + evento.getEspacio().getNombre() + &quot; - &quot; +
+evento.getEspacio().getDireccion());
+System.out.println(&quot;Artistas participantes:&quot;);
+for (Artista a : evento.getArtistas()) {
+System.out.println(&quot; - &quot; + a.getNombreArtistico() + &quot; (&quot; +
+a.getNombreReal() + &quot;, &quot; + a.getPaisOrigen() + &quot;)&quot;);
+}
+}
+}
