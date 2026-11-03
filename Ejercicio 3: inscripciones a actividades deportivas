@@ -1,0 +1,114 @@
+import java.util.ArrayList;
+import java.util.List;
+// Clase Instructor
+class Instructor {
+private String cedula;
+private String nombre;
+private String disciplinaEnsenada;
+public Instructor(String cedula, String nombre, String disciplinaEnsenada) {
+this.cedula = cedula;
+this.nombre = nombre;
+this.disciplinaEnsenada = disciplinaEnsenada;
+}
+public String getCedula() { return cedula; }
+public String getNombre() { return nombre; }
+public String getDisciplinaEnsenada() { return disciplinaEnsenada; }
+}
+// Clase ActividadDeportiva
+class ActividadDeportiva {
+private String nombre;
+private String horario;
+private int cupoMaximo;
+private Instructor instructor;
+public ActividadDeportiva(String nombre, String horario, int cupoMaximo,
+Instructor instructor) {
+this.nombre = nombre;
+this.horario = horario;
+this.cupoMaximo = cupoMaximo;
+this.instructor = instructor;
+
+}
+public String getNombre() { return nombre; }
+public String getHorario() { return horario; }
+public int getCupoMaximo() { return cupoMaximo; }
+public Instructor getInstructor() { return instructor; }
+}
+// Clase Ciudadano
+class Ciudadano {
+private String cedula;
+private String nombreCompleto;
+private List&lt;Inscripcion&gt; inscripciones;
+public Ciudadano(String cedula, String nombreCompleto) {
+this.cedula = cedula;
+this.nombreCompleto = nombreCompleto;
+this.inscripciones = new ArrayList&lt;&gt;();
+}
+public boolean puedeInscribirse(ActividadDeportiva actividad) {
+// Restricción: No inscribirse más de una vez por disciplina/actividad
+for (Inscripcion ins : inscripciones) {
+if
+(ins.getActividad().getNombre().equalsIgnoreCase(actividad.getNombre())) {
+return false;
+}
+}
+return true;
+}
+public void agregarInscripcion(Inscripcion inscripcion) {
+this.inscripciones.add(inscripcion);
+}
+public String getCedula() { return cedula; }
+public String getNombreCompleto() { return nombreCompleto; }
+public List&lt;Inscripcion&gt; getInscripciones() { return inscripciones; }
+}
+// Clase de Asociación: Inscripcion
+class Inscripcion {
+private String fechaInscripcion;
+private boolean asistioPrimerEncuentro;
+private Ciudadano ciudadano;
+private ActividadDeportiva actividad;
+public Inscripcion(String fechaInscripcion, boolean asistioPrimerEncuentro,
+Ciudadano ciudadano, ActividadDeportiva actividad) {
+if (!ciudadano.puedeInscribirse(actividad)) {
+throw new IllegalArgumentException(&quot;El ciudadano ya está inscrito en esta
+actividad o disciplina.&quot;);
+}
+this.fechaInscripcion = fechaInscripcion;
+this.asistioPrimerEncuentro = asistioPrimerEncuentro;
+this.ciudadano = ciudadano;
+this.actividad = actividad;
+ciudadano.agregarInscripcion(this);
+
+}
+public String getFechaInscripcion() { return fechaInscripcion; }
+public boolean isAsistioPrimerEncuentro() { return asistioPrimerEncuentro; }
+public Ciudadano getCiudadano() { return ciudadano; }
+public ActividadDeportiva getActividad() { return actividad; }
+}
+// Clase Principal de Prueba (Main)
+public class MainEjercicio3 {
+public static void main(String[] args) {
+Instructor inst = new Instructor(&quot;3.123.456-7&quot;, &quot;Esteban Rodríguez&quot;,
+&quot;Natación&quot;);
+ActividadDeportiva natacion = new ActividadDeportiva(&quot;Natación&quot;, &quot;Lunes y
+Miércoles 18:00&quot;, 20, inst);
+Ciudadano ciudadano = new Ciudadano(&quot;4.890.234-1&quot;, &quot;Lucía Fernández&quot;);
+// Realizar inscripción
+Inscripcion ins = new Inscripcion(&quot;01/11/2026&quot;, true, ciudadano, natacion);
+System.out.println(&quot;=== INSCRIPCIÓN DEPORTIVA ===&quot;);
+System.out.println(&quot;Ciudadano: &quot; + ins.getCiudadano().getNombreCompleto());
+System.out.println(&quot;Actividad: &quot; + ins.getActividad().getNombre() + &quot; (&quot; +
+ins.getActividad().getHorario() + &quot;)&quot;);
+System.out.println(&quot;Instructor: &quot; +
+ins.getActividad().getInstructor().getNombre());
+System.out.println(&quot;Fecha de Inscripción: &quot; + ins.getFechaInscripcion());
+System.out.println(&quot;Asistió al 1er encuentro: &quot; +
+(ins.isAsistioPrimerEncuentro() ? &quot;Sí&quot; : &quot;No&quot;));
+// Prueba de restricción: intentar inscribirse nuevamente a la misma actividad
+try {
+new Inscripcion(&quot;02/11/2026&quot;, false, ciudadano, natacion);
+} catch (IllegalArgumentException e) {
+System.out.println(&quot;\n[Validación de Restricción Exitosas]: &quot; +
+e.getMessage());
+}
+}
+}
