@@ -1,0 +1,134 @@
+import java.util.ArrayList;
+import java.util.List;
+// Clase abstracta Mascota (con herencia: Perro, Gato, etc.)
+abstract class Mascota {
+private String nombre;
+private int edad;
+private String tipo;
+private Voluntario voluntario;
+private Adopcion adopcion;
+public Mascota(String nombre, int edad, String tipo, Voluntario voluntario) {
+this.nombre = nombre;
+this.edad = edad;
+this.tipo = tipo;
+setVoluntario(voluntario);
+}
+public void setVoluntario(Voluntario voluntario) {
+if (this.voluntario != null) {
+this.voluntario.removerMascota(this);
+}
+this.voluntario = voluntario;
+if (voluntario != null &amp;&amp; !voluntario.getMascotas().contains(this)) {
+voluntario.agregarMascota(this);
+}
+}
+
+public void setAdopcion(Adopcion adopcion) {
+this.adopcion = adopcion;
+}
+public String getNombre() { return nombre; }
+public int getEdad() { return edad; }
+public String getTipo() { return tipo; }
+public Voluntario getVoluntario() { return voluntario; }
+public Adopcion getAdopcion() { return adopcion; }
+}
+class Perro extends Mascota {
+public Perro(String nombre, int edad, Voluntario voluntario) {
+super(nombre, edad, &quot;Perro&quot;, voluntario);
+}
+}
+class Gato extends Mascota {
+public Gato(String nombre, int edad, Voluntario voluntario) {
+super(nombre, edad, &quot;Gato&quot;, voluntario);
+}
+}
+// Clase Voluntario
+class Voluntario {
+private String cedula;
+private String nombreCompleto;
+private String contacto;
+private List&lt;Mascota&gt; mascotas;
+public Voluntario(String cedula, String nombreCompleto, String contacto) {
+this.cedula = cedula;
+this.nombreCompleto = nombreCompleto;
+this.contacto = contacto;
+this.mascotas = new ArrayList&lt;&gt;();
+}
+public void agregarMascota(Mascota m) {
+if (!mascotas.contains(m)) {
+mascotas.add(m);
+if (m.getVoluntario() != this) {
+m.setVoluntario(this);
+}
+}
+}
+public void removerMascota(Mascota m) {
+mascotas.remove(m);
+}
+public String getCedula() { return cedula; }
+public String getNombreCompleto() { return nombreCompleto; }
+public String getContacto() { return contacto; }
+public List&lt;Mascota&gt; getMascotas() { return mascotas; }
+}
+// Clase Adoptante
+
+class Adoptante {
+private String nombre;
+private String direccion;
+private String telefono;
+private List&lt;Adopcion&gt; adopciones;
+public Adoptante(String nombre, String direccion, String telefono) {
+this.nombre = nombre;
+this.direccion = direccion;
+this.telefono = telefono;
+this.adopciones = new ArrayList&lt;&gt;();
+}
+public void agregarAdopcion(Adopcion adopcion) {
+if (!adopciones.contains(adopcion)) {
+adopciones.add(adopcion);
+}
+}
+public String getNombre() { return nombre; }
+public String getDireccion() { return direccion; }
+public String getTelefono() { return telefono; }
+}
+// Clase de Asociación: Adopcion
+class Adopcion {
+private String fecha;
+private String estadoSeguimiento; // &quot;Abierto&quot; o &quot;Cerrado&quot;
+private Adoptante adoptante;
+private Mascota mascota;
+public Adopcion(String fecha, String estadoSeguimiento, Adoptante adoptante,
+Mascota mascota) {
+this.fecha = fecha;
+this.estadoSeguimiento = estadoSeguimiento;
+this.adoptante = adoptante;
+this.mascota = mascota;
+adoptante.agregarAdopcion(this);
+mascota.setAdopcion(this);
+}
+public String getFecha() { return fecha; }
+public String getEstadoSeguimiento() { return estadoSeguimiento; }
+public Adoptante getAdoptante() { return adoptante; }
+public Mascota getMascota() { return mascota; }
+}
+// Clase Principal de Prueba (Main)
+public class MainEjercicio2 {
+public static void main(String[] args) {
+Voluntario v1 = new Voluntario(&quot;4.587.123-4&quot;, &quot;María Gómez&quot;, &quot;099 123 456&quot;);
+Mascota p1 = new Perro(&quot;Firulais&quot;, 3, v1);
+Mascota g1 = new Gato(&quot;Michi&quot;, 2, v1);
+Adoptante ad1 = new Adoptante(&quot;Carlos Silva&quot;, &quot;Av. Artigas 1234&quot;, &quot;098 765
+432&quot;);
+Adopcion adopcion = new Adopcion(&quot;20/10/2026&quot;, &quot;Abierto&quot;, ad1, p1);
+
+System.out.println(&quot;=== GESTIÓN DE ADOPCIÓN ===&quot;);
+System.out.println(&quot;Mascota: &quot; + p1.getNombre() + &quot; (&quot; + p1.getTipo() + &quot;, &quot; +
+p1.getEdad() + &quot; años)&quot;);
+System.out.println(&quot;Voluntario a cargo: &quot; +
+p1.getVoluntario().getNombreCompleto());
+System.out.println(&quot;Adoptante: &quot; + adopcion.getAdoptante().getNombre());
+System.out.println(&quot;Fecha de Adopción: &quot; + adopcion.getFecha() + &quot; | Estado: &quot;
++ adopcion.getEstadoSeguimiento());
+}
+}
